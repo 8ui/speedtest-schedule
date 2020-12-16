@@ -1,24 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import Container from '@material-ui/core/Container'
+import Paper from '@material-ui/core/Paper'
+import Header from './components/Header';
+import Table from './components/Table';
+import Chart from './components/Chart';
+
+
+const f = (bytes) => {
+  return Number((bytes * 8.0E-6).toFixed(3))
+}
 
 function App() {
+  const [data, setData] = useState([]);
+
+  const fetchData = async() => {
+    let r = await window.fetch('/data.json');
+    r = await r.json();
+    const data = r.map((n, index) => ({
+      index,
+      id: n.result.id,
+      date: new Date(n.timestamp),
+      download: f(n.download.bandwidth),
+      upload: f(n.upload.bandwidth),
+      ping: n.ping.latency,
+    }));
+    setData(data.reverse());
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Paper>
+        <Header />
+        <Table data={data} />
+        <Chart data={data} />
+      </Paper>
+    </Container>
   );
 }
 
