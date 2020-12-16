@@ -24,7 +24,7 @@ const Header = () => {
     <AppBar position="sticky" className={classes.header}>
       <Toolbar>
         <Typography variant="h6" className={classes.title}>
-          Wiset SpeedTest
+          Speed Test Monitor
         </Typography>
       </Toolbar>
     </AppBar>
