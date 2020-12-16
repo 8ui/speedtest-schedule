@@ -6,10 +6,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 
-
 const useStyles = makeStyles((theme) => ({
   header: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
   title: {
     flexGrow: 1,
@@ -24,7 +23,7 @@ const Header = () => {
     <AppBar position="sticky" className={classes.header}>
       <Toolbar>
         <Typography variant="h6" className={classes.title}>
-          Speed Test Monitor
+          Measuring Internet speed on a schedule
         </Typography>
       </Toolbar>
     </AppBar>

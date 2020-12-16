@@ -14,17 +14,20 @@ function App() {
   const [data, setData] = useState([]);
 
   const fetchData = async() => {
-    let r = await window.fetch('/data.json');
-    r = await r.json();
-    const data = r.map((n, index) => ({
-      index,
-      id: n.result.id,
-      date: new Date(n.timestamp),
-      download: f(n.download.bandwidth),
-      upload: f(n.upload.bandwidth),
-      ping: n.ping.latency,
-    }));
-    setData(data.reverse());
+    try {
+      let r = await window.fetch('/data.json');
+      r = await r.json();
+      const data = r.map((n) => ({
+        id: n.result.id,
+        date: new Date(n.timestamp),
+        download: f(n.download.bandwidth),
+        upload: f(n.upload.bandwidth),
+        ping: n.ping.latency,
+      }));
+      setData(data.reverse());
+    } catch (e) {
+      console.warn(e);
+    }
   }
 
   useEffect(() => {

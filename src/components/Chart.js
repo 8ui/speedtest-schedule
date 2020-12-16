@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Paper from '@material-ui/core/Paper';
 import {
   Chart,
   ArgumentAxis,
@@ -12,7 +11,13 @@ import { withStyles } from '@material-ui/core/styles';
 import { Animation } from '@devexpress/dx-react-chart';
 
 
-const format = () => tick => tick;
+const format = () => tick => {
+  const options = {
+    hour: 'numeric', minute: 'numeric',
+    hour12: false
+  };
+  return new Intl.DateTimeFormat('en-US', options).format(new Date(tick));
+};
 const legendStyles = () => ({
   root: {
     display: 'flex',
@@ -53,16 +58,6 @@ const demoStyles = () => ({
   },
 });
 
-const ValueLabel = (props) => {
-  const { text } = props;
-  return (
-    <ValueAxis.Label
-      {...props}
-      text={text}
-    />
-  );
-};
-
 const titleStyles = {
   title: {
     whiteSpace: 'pre',
@@ -77,38 +72,36 @@ class ChartView extends React.PureComponent {
     const { data } = this.props;
     const { classes } = this.props;
 
-    console.warn('data', data);
-
     return (
-      <Paper>
-        <Chart
-          data={data}
-          className={classes.chart}
-        >
-          <ArgumentAxis tickFormat={format} />
-          <ValueAxis
-            max={50}
-            labelComponent={ValueLabel}
-          />
+      <Chart
+        data={data}
+        height={450}
+        className={classes.chart}
+      >
+        <ArgumentAxis
+          tickFormat={format}
+        />
+        <ValueAxis
+          max={50}
+        />
 
-          <LineSeries
-            name="Download"
-            valueField="download"
-            argumentField="index"
-          />
-          <LineSeries
-            name="Upload"
-            valueField="upload"
-            argumentField="index"
-          />
-          <Legend position="bottom" rootComponent={Root} itemComponent={Item} labelComponent={Label} />
-          <Title
-            text="SpeedTest"
-            textComponent={TitleText}
-          />
-          <Animation />
-        </Chart>
-      </Paper>
+        <LineSeries
+          name="Download"
+          valueField="download"
+          argumentField="date"
+        />
+        <LineSeries
+          name="Upload"
+          valueField="upload"
+          argumentField="date"
+        />
+        <Legend position="bottom" rootComponent={Root} itemComponent={Item} labelComponent={Label} />
+        <Title
+          text="Dynamics of speed change"
+          textComponent={TitleText}
+        />
+        <Animation />
+      </Chart>
     );
   }
 }

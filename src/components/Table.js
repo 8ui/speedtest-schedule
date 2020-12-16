@@ -18,7 +18,7 @@ const columns = [
     field: 'upload',
     headerName: 'Upload',
     type: 'number',
-    width: 90,
+    width: 130,
   },
   {
     field: 'ping',
@@ -30,8 +30,8 @@ const columns = [
 
 export default function DataTable({ data }) {
   return (
-    <div style={{ height: 600, width: '100%' }}>
-      <DataGrid rows={data} columns={columns} pageSize={30} checkboxSelection />
+    <div style={{ height: 400, width: '100%' }}>
+      <DataGrid showToolbar density="compact" rows={data} columns={columns} />
     </div>
   );
 }
