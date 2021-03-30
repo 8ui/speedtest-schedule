@@ -6,17 +6,19 @@ import {
   LineSeries,
   Title,
   Legend,
+  Tooltip,
 } from '@devexpress/dx-react-chart-material-ui';
 import { withStyles } from '@material-ui/core/styles';
-import { Animation } from '@devexpress/dx-react-chart';
+import { EventTracker } from '@devexpress/dx-react-chart';
 
 
 const format = () => tick => {
-  const options = {
-    hour: 'numeric', minute: 'numeric',
-    hour12: false
-  };
-  return new Intl.DateTimeFormat('en-US', options).format(new Date(tick));
+  // const options = {
+  //   hour: 'numeric', minute: 'numeric',
+  //   hour12: false
+  // };
+  // return new Intl.DateTimeFormat('en-US', options).format(new Date(tick));
+  return tick;
 };
 const legendStyles = () => ({
   root: {
@@ -78,7 +80,10 @@ class ChartView extends React.PureComponent {
         height={450}
         className={classes.chart}
       >
+        <EventTracker />
+        <Tooltip />
         <ArgumentAxis
+          tickSize={10}
           tickFormat={format}
         />
         <ValueAxis
@@ -88,19 +93,18 @@ class ChartView extends React.PureComponent {
         <LineSeries
           name="Download"
           valueField="download"
-          argumentField="date"
+          argumentField="index"
         />
         <LineSeries
           name="Upload"
           valueField="upload"
-          argumentField="date"
+          argumentField="index"
         />
         <Legend position="bottom" rootComponent={Root} itemComponent={Item} labelComponent={Label} />
         <Title
           text="Dynamics of speed change"
           textComponent={TitleText}
         />
-        <Animation />
       </Chart>
     );
   }

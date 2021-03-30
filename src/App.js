@@ -17,7 +17,8 @@ function App() {
     try {
       let r = await window.fetch('/data.json');
       r = await r.json();
-      const data = r.map((n) => ({
+      const data = r.map((n, index) => ({
+        index,
         id: n.result.id,
         date: new Date(n.timestamp),
         download: f(n.download.bandwidth),

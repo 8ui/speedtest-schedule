@@ -4,18 +4,16 @@ const speedTest = require('speedtest-net');
 const nodeSchedule = require('node-schedule');
 
 const PATH = path.join('public', 'data.json');
-const defaults = {
-  interval: 5
-};
 
-const interval = defaults.interval;
+const interval = 5;
 
 /**
  * Starts scheduled speed test
  */
 const runScheduler = (interval) => {
   runSpeedTest();
-  console.log('Scheduler starting. First test will run in ' + interval + 'minutes.');
+  console.log('Scheduler starting. First test will run in ' + interval + ' minutes.');
+  console.log('*/'+interval+' * * * *');
   nodeSchedule.scheduleJob('*/'+interval+' * * * *', runSpeedTest);
 };
 
